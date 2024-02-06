@@ -4,8 +4,8 @@ WORKDIR /usr/src/app
 
 COPY . .
 
-# EXPOSE 3000
-EXPOSE 8888
+EXPOSE 3000
+# EXPOSE 8888
 
 # CMD ["node", "index.js"]
 CMD ["npm", "start"]

@@ -1,4 +1,9 @@
 version: "3.8"
+
+networks:
+  nodenet:
+    driver: bridge
+
 services:
   server:
     image: server
@@ -7,8 +12,9 @@ services:
       dockerfile: Dockerfile
     container_name: ${SERVER_HOST}
     env_file: .env
-    ports:
-      - ${SERVER_PORT}:${SERVER_PORT}
+    networks:
+      - nodenet
+
   nginx:
     image: reverse-proxy
     restart: always
@@ -17,30 +23,7 @@ services:
       dockerfile: Dockerfile
     container_name: ${NGINX_HOST}
     env_file: .env
+    networks:
+      - nodenet
     ports:
       - ${NGINX_PORT}:${NGINX_PORT}
-
-  
-
-
-# version: '3'
-
-# services:
-
-#   node:
-#     image: brenotorquato/node-fullcycle
-#     container_name: node
-#     networks:
-#       - nodenet
-
-#   nginx:
-#     image: brenotorquato/nginx-fullcycle-v2
-#     container_name: nginx
-#     networks:
-#       - nodenet
-#     ports:
-#       - "8080:80"
-
-# networks:
-#   nodenet:
-#     driver: bridge

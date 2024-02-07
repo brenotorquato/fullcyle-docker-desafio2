@@ -5,10 +5,10 @@ networks:
     driver: bridge
 
 services:
-  server:
+  node:
     image: server
     build:
-      context: ./server
+      context: ./node
       dockerfile: Dockerfile
     container_name: ${SERVER_HOST}
     env_file: .env

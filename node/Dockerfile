@@ -1,4 +1,5 @@
-FROM node:15
+# FROM node:15
+FROM node:slim
 
 WORKDIR /usr/src/app
 

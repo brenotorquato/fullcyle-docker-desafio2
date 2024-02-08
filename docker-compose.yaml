@@ -6,23 +6,23 @@ networks:
 
 services:
   node:
-    image: server
+    image: brenotorquato/node_docker_desafio2
+    container_name: ${SERVER_HOST}
+    env_file: .env
     build:
       context: ./node
       dockerfile: Dockerfile
-    container_name: ${SERVER_HOST}
-    env_file: .env
     networks:
       - nodenet
 
   nginx:
-    image: reverse-proxy
+    image: brenotorquato/nginx_docker_desafio2
+    container_name: ${NGINX_HOST}
     restart: always
+    env_file: .env
     build:
       context: ./nginx
       dockerfile: Dockerfile
-    container_name: ${NGINX_HOST}
-    env_file: .env
     networks:
       - nodenet
     ports:

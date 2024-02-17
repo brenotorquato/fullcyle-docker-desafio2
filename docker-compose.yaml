@@ -27,3 +27,16 @@ services:
       - nodenet
     ports:
       - ${NGINX_PORT}:${NGINX_PORT}
+
+  db:
+    platform: linux/x86_64
+    image: mysql:5.7
+    command: --innodb-use-native-aio=0
+    container_name: ${MYSQL_HOST}
+    restart: always
+    env_file: .env
+    tty: true
+    volumes:
+      - ./mysql:/var/lib/mysql
+    networks:
+      - nodenet

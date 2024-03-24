@@ -2,24 +2,80 @@ const express = require('express');
 const app = express()
 const port = 3000
 
+// app.get('/', (req,res) => {
+//     res.send('<h1>Full Cycle - Breno teste</h1>')
+// })
+
 app.get('/', (req,res) => {
-    res.send('<h1>Full Cycle - Breno teste</h1>')
+    var con = mysql.createConnection({
+        host: 'db',
+        user: 'root',
+        password: 'root',
+        database: 'nodedb'
+    });
+
+    con.connect((err) => {
+        if (err) {
+            console.error('Erro ao conectar ao banco de dados: ', err);
+            return;
+        }
+        console.log('Conectado ao banco de dados.');
+    });
+
+    con.query('SELECT * FROM people', (error, results) => {
+        if (error) {
+            console.error('Erro ao executar a consulta: ', error);
+            return;
+        }
+
+        let bodyHtml = '<h1>Full Cycle</h1><br/><br/><br/>';
+        bodyHtml += '<table><tr><th>ID</th><th>Nome</th></tr>';
+        results.forEach((row) => {
+            bodyHtml += `<tr><td>${row.id}</td><td>${row.name}</td></tr>`;
+        });
+        bodyHtml += '</table>';
+        res.send(bodyHtml);
+        // return bodyHtml;
+    });
 })
 
 app.listen(port, () => {
-
     console.log('STEP 1 - Rodando na porta ' + port)
-
     createTableDatabase()
-    console.log('STEP 2 - Verificado se tabela people foi criada')
-
-    // insertNameDatabase(generateRandomName())
-    // console.log('STEP 3 - executada tentativa de insert de nome')
-    var list = listAllPeople()
-    console.log("### LISTA DE PESSOAS")
-    console.log('STEP 4 - carregada lista de nomes')
-
 })
+
+function listNames() {
+    var con = mysql.createConnection({
+        host: 'db',
+        user: 'root',
+        password: 'root',
+        database: 'nodedb'
+    });
+
+    con.connect((err) => {
+        if (err) {
+            console.error('Erro ao conectar ao banco de dados: ', err);
+            return;
+        }
+        console.log('Conectado ao banco de dados.');
+    });
+
+    con.query('SELECT * FROM people', (error, results) => {
+        if (error) {
+            console.error('Erro ao executar a consulta: ', error);
+            return;
+        }
+
+        let bodyHtml = '<h1>Full Cycle</h1><br/><br/><br/>';
+        bodyHtml += '<table><tr><th>ID</th><th>Nome</th></tr>';
+        results.forEach((row) => {
+            bodyHtml += `<tr><td>${row.id}</td><td>${row.nome}</td></tr>`;
+        });
+        bodyHtml += '</table>';
+        // res.send(bodyHtml);
+        return bodyHtml;
+    });
+}
 
 // database functions
 const mysql = require('mysql');
@@ -53,7 +109,6 @@ function executeSQLDatabase(sql)  {
                 console.log("### ERRO ENCONTRADO AO EXECUTAR SQL: " + err.code)
                 console.log("### STACK TRACE: " + err)
             }
-            console.log(result)
             return result
         })
     })

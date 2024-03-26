@@ -2,11 +2,42 @@ const express = require('express');
 const app = express()
 const port = 3000
 
-// app.get('/', (req,res) => {
-//     res.send('<h1>Full Cycle - Breno teste</h1>')
-// })
+const connection = require("./database/database");
+const Pessoa = require("./database/pessoa")
+
+connection
+    .authenticate()
+    .then(() => {
+        console.log("#### CONEXAO COM BANDO DE DADOS OK ####")
+    })
+    .catch((msgErro) => {
+        console.log(msgErro)
+    })
+
+app.set('view engine','ejs');
+app.use(express.static('public'));
 
 app.get('/', (req,res) => {
+
+    /*
+    Pessoa.create({
+        name: generateRandomName()
+    });
+    */
+
+    Pessoa.findAll({ raw: true }).then(pessoas => {
+        res.render("index",{
+            pessoas: pessoas
+        });
+    });
+    
+});
+
+/*
+app.get('/', (req,res) => {
+
+    res.send('<h1>Full Cycle - Breno teste</h1>')
+
     var con = mysql.createConnection({
         host: 'db',
         user: 'root',
@@ -37,13 +68,16 @@ app.get('/', (req,res) => {
         res.send(bodyHtml);
         // return bodyHtml;
     });
+
 })
+*/
 
 app.listen(port, () => {
     console.log('STEP 1 - Rodando na porta ' + port)
-    createTableDatabase()
+    // createTableDatabase()
 })
 
+/*
 function listNames() {
     var con = mysql.createConnection({
         host: 'db',
@@ -113,6 +147,7 @@ function executeSQLDatabase(sql)  {
         })
     })
 }
+*/
 
 // support functions
 function generateRandomName() {

@@ -2,7 +2,13 @@ FROM node:slim
 
 WORKDIR /usr/src/app
 
-RUN npm install mysql --save
+RUN npm install express --save
+
+RUN npm install mysql2 --save
+
+RUN npm install ejs --save
+
+RUN npm install sequelize --save
 
 COPY package*.json ./
 

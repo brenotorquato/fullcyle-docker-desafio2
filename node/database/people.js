@@ -1,13 +1,13 @@
 const Sequelize = require("sequelize");
 const connection = require("./database");
 
-const Pessoa = connection.define('pessoa',{
+const People = connection.define('people',{
     name:{
         type: Sequelize.STRING,
         allowNull: false
     }
 });
 
-Pessoa.sync({force: false}).then(() => {});
+People.sync({force: false}).then(() => {});
 
-module.exports = Pessoa;
+module.exports = People;

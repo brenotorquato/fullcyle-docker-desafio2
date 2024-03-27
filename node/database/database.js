@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 
 const connection = new Sequelize('nodedb','root','root', {
-    host: 'db',
+    host: 'database',
     dialect: 'mysql'
 });
 

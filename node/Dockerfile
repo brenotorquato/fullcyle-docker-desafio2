@@ -6,8 +6,6 @@ COPY package*.json ./
 
 RUN npm install
 
-# RUN chown -R node:node node_modules
-
 COPY . .
 
 ENV DOCKERIZE_VERSION v0.7.0

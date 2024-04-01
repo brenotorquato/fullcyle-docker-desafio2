@@ -47,3 +47,5 @@ services:
       - node-network
     ports:
       - ${NGINX_PORT}:${NGINX_PORT}
+    depends_on:
+      - app
